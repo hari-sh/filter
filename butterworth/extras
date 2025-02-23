@@ -1,0 +1,21 @@
+
+worN=linspace(start=-1, stop=5, num=100)
+# zeros, poles, k = signal.butter(4, 1, output='zpk', fs=4)
+w, h = signal.freqs_zpk(zeros, poles, k, worN=worN)
+
+fig = plt.figure()
+ax1 = fig.add_subplot(1, 1, 1)
+ax1.set_title('Digital filter frequency response')
+
+ax1.plot(w, 20 * log10(abs(h)), 'b')
+ax1.set_ylabel('Amplitude [dB]', color='b')
+ax1.set_xlabel('Frequency [Hz]')
+ax1.grid(True)
+
+# ax2 = ax1.twinx()
+# phase = unwrap(angle(h))
+# ax2.plot(w, phase, 'g')
+# ax2.set_ylabel('Phase [rad]', color='g')
+
+# plt.axis('tight')
+plt.show()
