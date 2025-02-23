@@ -1,14 +1,18 @@
-import matplotlib.pyplot as plt 
+import matplotlib.pyplot as plt
+from numpy import log10, angle, unwrap, logspace, linspace
+from scipy import signal
 from cmath import exp
 from math import pi
-N = 7
-roots = []
+N = 4
+poles = []
+zeros = []
+k = 1
 for k in range(N):
-    roots.append(1j*exp(1j*pi*(1+2*k)/(2*N)))
+    poles.append(1j*exp(1j*pi*(1+2*k)/(2*N)))
 
-print(roots)
-x = [ele.real for ele in roots] 
-y = [ele.imag for ele in roots] 
+print(poles)
+x = [ele.real for ele in poles] 
+y = [ele.imag for ele in poles] 
 
 ax = plt.gca()
 
@@ -29,4 +33,24 @@ circ = plt.Circle((0, 0), radius=1, edgecolor='r', facecolor='None', ls='--')
 ax.add_patch(circ)
 
 plt.plot(x, y, 'g*')
+
+worN=linspace(start=-1, stop=5, num=100)
+# zeros, poles, k = signal.butter(4, 1, output='zpk', fs=4)
+w, h = signal.freqs_zpk(zeros, poles, k, worN=worN)
+
+fig = plt.figure()
+ax1 = fig.add_subplot(1, 1, 1)
+ax1.set_title('Digital filter frequency response')
+
+ax1.plot(w, 20 * log10(abs(h)), 'b')
+ax1.set_ylabel('Amplitude [dB]', color='b')
+ax1.set_xlabel('Frequency [Hz]')
+ax1.grid(True)
+
+# ax2 = ax1.twinx()
+# phase = unwrap(angle(h))
+# ax2.plot(w, phase, 'g')
+# ax2.set_ylabel('Phase [rad]', color='g')
+
+# plt.axis('tight')
 plt.show()
