@@ -1,6 +1,7 @@
-import numpy as np 
 from scipy import signal 
 from math import log10, pi, tan
+import numpy
+numpy.set_printoptions(precision=4, suppress=True)
 
 f_sample = 8000
 f_pass = 800
@@ -15,8 +16,6 @@ ws = f_stop*pi/(f_sample/2)
 omega_p = (2/Td)*tan(wp/2) 
 omega_s = (2/Td)*tan(ws/2) 
 
-omrat = omega_s/omega_p
-
 N, Wn = signal.buttord(omega_p, omega_s, g_pass, g_stop, analog=True) 
 
 print("Order of the Filter=", N)
@@ -24,5 +23,6 @@ print("Cut-off frequency= {:.3f} rad/s ".format(Wn))
 
 b, a = signal.butter(N, Wn, 'low', True)
 digb, diga = signal.bilinear(b, a, fs) 
-# w, h = signal.freqz(z, p, 512)
-print()
+
+print('Digital Numerator: ', digb)
+print('Digital Denominator: ', diga)

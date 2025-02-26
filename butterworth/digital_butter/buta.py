@@ -4,7 +4,7 @@ from math import log10
 
 f_sample = 40000
 f_pass = 4000
-f_stop = 8000
+f_stop = 12000
 g_pass = 0.5
 g_stop = 40
 Td = 1
@@ -15,7 +15,8 @@ ws = f_stop/(f_sample/2)
 omega_p = (2/Td)*np.tan(wp/2) 
 omega_s = (2/Td)*np.tan(ws/2) 
 
-N, Wn = signal.buttord(omega_p, omega_s, g_pass, g_stop, analog=True) 
+# N, Wn = signal.buttord(omega_p, omega_s, g_pass, g_stop, analog=True) 
+N, Wn = signal.buttord(wp, ws, g_pass, g_stop, analog=True) 
 
 print("Order of the Filter=", N)
 print("Cut-off frequency= {:.3f} rad/s ".format(Wn)) 
